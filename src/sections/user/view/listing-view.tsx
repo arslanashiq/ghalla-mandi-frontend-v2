@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
+import { Stack } from '@mui/material';
 import Card from '@mui/material/Card';
 import Table from '@mui/material/Table';
 import Button from '@mui/material/Button';
@@ -9,24 +11,28 @@ import Typography from '@mui/material/Typography';
 import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 
+import { DEFAULT_PAGINATION_OPTIONS } from 'src/utils/constants';
+
 import { _users } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
+import BreadcrumbsComponent from 'src/components/breadcrumbs/breadcrumbs';
 
-import { TableNoData } from '../table-no-data';
-import { UserTableRow } from '../user-table-row';
-import { UserTableHead } from '../user-table-head';
-import { TableEmptyRows } from '../table-empty-rows';
-import { UserTableToolbar } from '../user-table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../utils';
+import { TableNoData } from '../listing/table-no-data';
+import { UserTableRow } from '../listing/user-table-row';
+import { UserTableHead } from '../listing/user-table-head';
+import { TableEmptyRows } from '../listing/table-empty-rows';
+import { UserTableToolbar } from '../listing/user-table-toolbar';
+import { emptyRows, applyFilter, getComparator } from '../listing/utils';
 
-import type { UserProps } from '../user-table-row';
+import type { UserProps } from '../listing/user-table-row';
 
 // ----------------------------------------------------------------------
 
-export function UserView() {
+export default function ListingView() {
+  const navigate = useNavigate();
   const table = useTable();
 
   const [filterName, setFilterName] = useState('');
@@ -39,6 +45,9 @@ export function UserView() {
 
   const notFound = !dataFiltered.length && !!filterName;
 
+  const handleAdd = useCallback(() => {
+    navigate('add');
+  }, []);
   return (
     <DashboardContent>
       <Box
@@ -46,15 +55,20 @@ export function UserView() {
           mb: 5,
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Typography variant="h4" sx={{ flexGrow: 1 }}>
-          Users
-        </Typography>
+        <Stack>
+          <Typography variant="h4" sx={{ flexGrow: 1 }}>
+            Users
+          </Typography>
+          <BreadcrumbsComponent />
+        </Stack>
         <Button
           variant="contained"
           color="inherit"
           startIcon={<Iconify icon="mingcute:add-line" />}
+          onClick={handleAdd}
         >
           New user
         </Button>
@@ -126,7 +140,7 @@ export function UserView() {
           count={_users.length}
           rowsPerPage={table.rowsPerPage}
           onPageChange={table.onChangePage}
-          rowsPerPageOptions={[5, 10, 25]}
+          rowsPerPageOptions={DEFAULT_PAGINATION_OPTIONS}
           onRowsPerPageChange={table.onChangeRowsPerPage}
         />
       </Card>
@@ -139,7 +153,7 @@ export function UserView() {
 export function useTable() {
   const [page, setPage] = useState(0);
   const [orderBy, setOrderBy] = useState('name');
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(9);
   const [selected, setSelected] = useState<string[]>([]);
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
 
