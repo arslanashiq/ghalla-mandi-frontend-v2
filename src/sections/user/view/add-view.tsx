@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -19,16 +19,24 @@ import {
   TextField,
 } from '@mui/material';
 
+import { fCurrency } from 'src/utils/format-number';
+
 import { _users } from 'src/_mock';
 import { DashboardContent } from 'src/layouts/dashboard';
 
 import { Iconify } from 'src/components/iconify';
+import CustomTimeline from 'src/components/timeline/custom-timeline';
 import BreadcrumbsComponent from 'src/components/breadcrumbs/breadcrumbs';
 
 // ----------------------------------------------------------------------
 
 export default function AddView() {
   const navigate = useNavigate();
+  const { id } = useParams();
+
+  const handleClickSave = useCallback(() => {
+    navigate(-1);
+  }, []);
 
   return (
     <DashboardContent>
@@ -46,60 +54,97 @@ export default function AddView() {
           </Typography>
           <BreadcrumbsComponent />
         </Stack>
-        <Button variant="contained" color="inherit" startIcon={<Iconify icon="eva:save-fill" />}>
+        <Button
+          variant="contained"
+          color="inherit"
+          startIcon={<Iconify icon="eva:save-fill" />}
+          onClick={handleClickSave}
+        >
           Save
         </Button>
       </Box>
 
       <Grid container spacing={1}>
-        <Grid size={{ xs: 12, md: 4 }}>
-          <Card>
-            <CardContent>
-              <Stack spacing={2} alignItems="center">
-                <Box
-                  sx={{
-                    width: 140,
-                    height: 140,
-                    borderRadius: '50%',
-                    border: '2px dashed #d0d5dd',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <IconButton component="label">
-                    <Avatar
-                      sx={{
-                        width: 80,
-                        height: 80,
-                        bgcolor: '#f1f3f5',
-                      }}
-                    >
-                      <PhotoCamera />
-                    </Avatar>
-                    <input hidden accept="image/*" type="file" />
-                  </IconButton>
-                </Box>
+        <Grid container size={{ xs: 12, md: 4 }} spacing={1}>
+          <Grid size={12}>
+            <Card>
+              <CardContent>
+                <Stack spacing={2} alignItems="center">
+                  <Box
+                    sx={{
+                      width: 140,
+                      height: 140,
+                      borderRadius: '50%',
+                      border: '2px dashed #d0d5dd',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    <IconButton component="label">
+                      <Avatar
+                        sx={{
+                          width: 80,
+                          height: 80,
+                          bgcolor: '#f1f3f5',
+                        }}
+                      >
+                        <PhotoCamera />
+                      </Avatar>
+                      <input hidden accept="image/*" type="file" />
+                    </IconButton>
+                  </Box>
 
-                <Typography variant="caption" color="text.secondary">
-                  Allowed *.jpeg, *.jpg, *.png, *.gif
-                  <br />
-                  max size of 3 Mb
-                </Typography>
-
-                <Box sx={{ width: '100%', textAlign: 'left', mt: 3 }}>
-                  <Typography variant="subtitle2">Email verified</Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                    Disabling this will automatically send
+                  <Typography variant="caption" color="text.secondary">
+                    Allowed *.jpeg, *.jpg, *.png, *.gif
                     <br />
-                    the user a verification email
+                    max size of 3 Mb
                   </Typography>
 
-                  <FormControlLabel control={<Switch defaultChecked />} label="" />
-                </Box>
-              </Stack>
-            </CardContent>
-          </Card>
+                  <Box sx={{ width: '100%', textAlign: 'left', mt: 3 }}>
+                    <Typography variant="subtitle2">Email verified</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
+                      Disabling this will automatically send
+                      <br />
+                      the user a verification email
+                    </Typography>
+
+                    <FormControlLabel control={<Switch defaultChecked />} label="" />
+                  </Box>
+                </Stack>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid size={12}>
+            <Card>
+              <CardContent>
+                <Stack
+                  spacing={2}
+                  direction="row"
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  <Box>
+                    <Typography variant="subtitle2">Transaction History</Typography>
+                    <Typography variant="caption">
+                      Outstanding Balance : {fCurrency(15000)}
+                    </Typography>
+                  </Box>
+
+                  <Button
+                    variant="contained"
+                    color="inherit"
+                    size="small"
+                    startIcon={<Iconify icon="mingcute:add-line" />}
+                  >
+                    Transaction
+                  </Button>
+                </Stack>
+
+                <CustomTimeline />
+              </CardContent>
+            </Card>
+          </Grid>
         </Grid>
 
         <Grid size={{ xs: 12, md: 8 }}>

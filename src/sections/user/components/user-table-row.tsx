@@ -1,6 +1,8 @@
 import { useState, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 import Avatar from '@mui/material/Avatar';
 import Popover from '@mui/material/Popover';
 import TableRow from '@mui/material/TableRow';
@@ -32,6 +34,7 @@ type UserTableRowProps = {
 };
 
 export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) {
+  const navigate = useNavigate();
   const [openPopover, setOpenPopover] = useState<HTMLButtonElement | null>(null);
 
   const handleOpenPopover = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
@@ -40,6 +43,9 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
 
   const handleClosePopover = useCallback(() => {
     setOpenPopover(null);
+  }, []);
+  const handleClickDetail = useCallback(() => {
+    navigate(`${row.id}`);
   }, []);
 
   return (
@@ -58,7 +64,9 @@ export function UserTableRow({ row, selected, onSelectRow }: UserTableRowProps) 
             }}
           >
             <Avatar alt={row.name} src={row.avatarUrl} />
-            {row.name}
+            <Button variant="text" color="inherit" onClick={handleClickDetail}>
+              {row.name}
+            </Button>
           </Box>
         </TableCell>
 

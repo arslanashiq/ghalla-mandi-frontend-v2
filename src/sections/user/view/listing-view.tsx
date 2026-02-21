@@ -20,14 +20,14 @@ import { Iconify } from 'src/components/iconify';
 import { Scrollbar } from 'src/components/scrollbar';
 import BreadcrumbsComponent from 'src/components/breadcrumbs/breadcrumbs';
 
-import { TableNoData } from '../listing/table-no-data';
-import { UserTableRow } from '../listing/user-table-row';
-import { UserTableHead } from '../listing/user-table-head';
-import { TableEmptyRows } from '../listing/table-empty-rows';
-import { UserTableToolbar } from '../listing/user-table-toolbar';
-import { emptyRows, applyFilter, getComparator } from '../listing/utils';
+import { TableNoData } from '../components/table-no-data';
+import { UserTableRow } from '../components/user-table-row';
+import { UserTableHead } from '../components/user-table-head';
+import { TableEmptyRows } from '../components/table-empty-rows';
+import { UserTableToolbar } from '../components/user-table-toolbar';
+import { emptyRows, applyFilter, getComparator } from '../components/utils';
 
-import type { UserProps } from '../listing/user-table-row';
+import type { UserProps } from '../components/user-table-row';
 
 // ----------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ export default function ListingView() {
           startIcon={<Iconify icon="mingcute:add-line" />}
           onClick={handleAdd}
         >
-          New user
+          User
         </Button>
       </Box>
 
@@ -105,7 +105,7 @@ export default function ListingView() {
                   { id: 'role', label: 'Role' },
                   { id: 'isVerified', label: 'Verified', align: 'center' },
                   { id: 'status', label: 'Status' },
-                  { id: '' },
+                  { id: '', label: 'Actions', align: 'right' },
                 ]}
               />
               <TableBody>
