@@ -4,7 +4,7 @@
 
 ![preview](public/assets/images/ghalla-mandi-preview.jpg)
 
-> Free React Admin Dashboard made with Material-UI components and React + Vite.js.
+> Free React Admin Dashboard made with  React + Vite.js.
 
 <!-- ## Pages
 
